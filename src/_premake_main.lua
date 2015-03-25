@@ -141,7 +141,7 @@
 ---
 
 	function m.locateUserScript()
-		local defaults = { "premake5.lua", "premake4.lua" }
+		local defaults = { "premake-bnet.lua", "premake5.lua", "premake4.lua" }
 		for i = 1, #defaults do
 			if os.isfile(defaults[i]) then
 				_MAIN_SCRIPT = defaults[i]
