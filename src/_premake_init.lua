@@ -1347,6 +1347,19 @@
 		characterset "Default"
 	end)
 
+	-- 16 Jun 2016
+
+	api.register {
+		name = "buildoutputsasinputs",
+		scope = "config",
+		kind = "boolean"
+	}
+
+	api.deprecateField("buildoutputsasinputs", nil, function(value)
+		premake.warn("buildoutputsasinputs has been deprecated, please use 'compilebuildoutputs' instead.")
+		compilebuildoutputs(value)
+	end)
+
 	-- 21 June 2016
 
 	api.deprecateValue("flags", "Symbols", 'Use `symbols "On"` instead',
