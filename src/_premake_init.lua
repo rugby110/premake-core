@@ -512,6 +512,8 @@
 			"C++14",
 			"C90",
 			"C99",
+
+			"MacOSXBundle"
 		},
 		aliases = {
 			FatalWarnings = { "FatalWarnings", "FatalCompileWarnings", "FatalLinkWarnings" },
