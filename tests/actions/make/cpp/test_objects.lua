@@ -16,12 +16,15 @@
 	local wks, prj
 
 	function suite.setup()
+		p.make.cpp.initialize()
 		wks = test.createWorkspace()
 	end
 
 	local function prepare()
 		prj = test.getproject(wks, 1)
-		p.make.cppObjects(prj)
+		p.make.cpp.createRuleTable(prj)
+		p.make.cpp.createFileTable(prj)
+		p.make.cpp.outputFilesSection(prj)
 	end
 
 
@@ -34,10 +37,14 @@
 		files { "src/hello.cpp" }
 		prepare()
 		test.capture [[
-OBJECTS := \
-	$(OBJDIR)/hello.o \
+# File sets
+# #############################################
 
-  		]]
+OBJECTS :=
+
+OBJECTS += $(OBJDIR)/hello.o
+
+		]]
 	end
 
 
@@ -49,10 +56,14 @@ OBJECTS := \
 		files { "include/gl.h", "src/hello.cpp" }
 		prepare()
 		test.capture [[
-OBJECTS := \
-	$(OBJDIR)/hello.o \
+# File sets
+# #############################################
 
-  		]]
+OBJECTS :=
+
+OBJECTS += $(OBJDIR)/hello.o
+
+		]]
 	end
 
 
@@ -67,25 +78,20 @@ OBJECTS := \
 		files { "src/hello_release.cpp" }
 		prepare()
 		test.capture [[
-OBJECTS := \
+# File sets
+# #############################################
 
-RESOURCES := \
-
-CUSTOMFILES := \
+OBJECTS :=
 
 ifeq ($(config),debug)
-  OBJECTS += \
-	$(OBJDIR)/hello_debug.o \
-
+OBJECTS += $(OBJDIR)/hello_debug.o
 endif
 
 ifeq ($(config),release)
-  OBJECTS += \
-	$(OBJDIR)/hello_release.o \
-
+OBJECTS += $(OBJDIR)/hello_release.o
 endif
 
-  		]]
+		]]
 	end
 
 
@@ -97,11 +103,15 @@ endif
 		files { "src/hello.cpp", "src/greetings/hello.cpp" }
 		prepare()
 		test.capture [[
-OBJECTS := \
-	$(OBJDIR)/hello.o \
-	$(OBJDIR)/hello1.o \
+# File sets
+# #############################################
 
-  		]]
+OBJECTS :=
+
+OBJECTS += $(OBJDIR)/hello.o
+OBJECTS += $(OBJDIR)/hello1.o
+
+		]]
 	end
 
 
@@ -121,84 +131,18 @@ OBJECTS := \
 			buildoutputs { "%{cfg.objdir}/%{file.basename}.obj" }
 		prepare()
 		test.capture [[
-OBJECTS := \
+# File sets
+# #############################################
 
-RESOURCES := \
-
-CUSTOMFILES := \
-
-ifeq ($(config),debug)
-  OBJECTS += \
-	obj/Debug/hello.obj \
-
-endif
-
-		]]
-	end
-
-
---
--- Also include it in the link step if we explicitly specified so with
--- linkbuildoutputs.
---
-
-	function suite.linkBuildOutputs_onOn()
-		files { "hello.x" }
-		filter "files:**.x"
-			buildmessage "Compiling %{file.name}"
-			buildcommands {
-				'cxc -c "%{file.path}" -o "%{cfg.objdir}/%{file.basename}.xo"',
-				'c2o -c "%{cfg.objdir}/%{file.basename}.xo" -o "%{cfg.objdir}/%{file.basename}.obj"'
-			}
-			buildoutputs { "%{cfg.objdir}/%{file.basename}.obj" }
-			linkbuildoutputs "On"
-		prepare()
-		test.capture [[
-OBJECTS := \
-
-RESOURCES := \
-
-CUSTOMFILES := \
+OBJECTS :=
 
 ifeq ($(config),debug)
-  OBJECTS += \
-	obj/Debug/hello.obj \
-
+OBJECTS += obj/Debug/hello.obj
 endif
 
-		]]
-	end
-
-
---
--- If linkbuildoutputs says that we shouldn't include it in the link however,
--- don't do it.
---
-
-	function suite.linkBuildOutputs_onOff()
-		files { "hello.x" }
-		filter "files:**.x"
-			buildmessage "Compiling %{file.name}"
-			buildcommands {
-				'cxc -c "%{file.path}" -o "%{cfg.objdir}/%{file.basename}.xo"',
-				'c2o -c "%{cfg.objdir}/%{file.basename}.xo" -o "%{cfg.objdir}/%{file.basename}.obj"'
-			}
-			buildoutputs { "%{cfg.objdir}/%{file.basename}.obj" }
-			linkbuildoutputs "Off"
-		prepare()
-		test.capture [[
-OBJECTS := \
-
-RESOURCES := \
-
-CUSTOMFILES := \
-
-ifeq ($(config),debug)
-  CUSTOMFILES += \
-	obj/Debug/hello.obj \
-
+ifeq ($(config),release)
+OBJECTS += obj/Release/hello.obj
 endif
-
 		]]
 	end
 
@@ -213,16 +157,13 @@ endif
 		removefiles { "hello.cpp" }
 		prepare()
 		test.capture [[
-OBJECTS := \
+# File sets
+# #############################################
 
-RESOURCES := \
-
-CUSTOMFILES := \
+OBJECTS :=
 
 ifeq ($(config),release)
-  OBJECTS += \
-	$(OBJDIR)/hello.o \
-
+OBJECTS += $(OBJDIR)/hello.o
 endif
 
 		]]
@@ -234,16 +175,13 @@ endif
 		flags { "ExcludeFromBuild" }
 		prepare()
 		test.capture [[
-OBJECTS := \
+# File sets
+# #############################################
 
-RESOURCES := \
-
-CUSTOMFILES := \
+OBJECTS :=
 
 ifeq ($(config),release)
-  OBJECTS += \
-	$(OBJDIR)/hello.o \
-
+OBJECTS += $(OBJDIR)/hello.o
 endif
 
 		]]
