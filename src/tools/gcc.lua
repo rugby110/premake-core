@@ -59,7 +59,7 @@
 		optimize = {
 			Off = "-O0",
 			On = "-O2",
-			Debug = "-Og",
+			Debug = "-O",
 			Full = "-O3",
 			Size = "-Os",
 			Speed = "-O3",
