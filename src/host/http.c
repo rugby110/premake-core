@@ -120,6 +120,7 @@ static void get_headers(lua_State* L, int headersIndex, struct curl_slist** head
 
 static CURL* curl_request(lua_State* L, curl_state* state, int optionsIndex, int progressFnIndex, int headersIndex)
 {
+	char agent[1024];
 	CURL* curl;
 
 	state->L = 0;
@@ -135,12 +136,15 @@ static CURL* curl_request(lua_State* L, curl_state* state, int optionsIndex, int
 	if (!curl)
 		return NULL;
 
+	strcpy(agent, "Premake/");
+	strcat(agent, PREMAKE_VERSION);
+
 	curl_easy_setopt(curl, CURLOPT_URL, luaL_checkstring(L, 1));
 	curl_easy_setopt(curl, CURLOPT_FOLLOWLOCATION, 1);
 	curl_easy_setopt(curl, CURLOPT_NOPROGRESS, 1);
 	curl_easy_setopt(curl, CURLOPT_FAILONERROR, 1);
 	curl_easy_setopt(curl, CURLOPT_ERRORBUFFER, state->errorBuffer);
-	curl_easy_setopt(curl, CURLOPT_USERAGENT, "Premake/" PREMAKE_VERSION);
+	curl_easy_setopt(curl, CURLOPT_USERAGENT, agent);
 
 	if (optionsIndex && lua_istable(L, optionsIndex))
 	{
