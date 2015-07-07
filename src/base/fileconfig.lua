@@ -56,6 +56,7 @@
 		context.compile(fcfg)
 
 		fcfg.project = prj
+		fcfg.solution = prj.solution
 		fcfg.configs = {}
 		fcfg.abspath = fname
 
@@ -91,6 +92,7 @@
 
 	function fileconfig.addconfig(fcfg, cfg)
 		local prj = cfg.project
+		local sln = cfg.solution
 
 		-- Create a new context object for this configuration-file pairing.
 		-- The context has the ability to pull out configuration settings
@@ -122,6 +124,7 @@
 		fsub.vpath = fcfg.vpath
 		fsub.config = cfg
 		fsub.project = prj
+		fsub.solution = sln
 
 		-- Set the context's base directory to the project's file system
 		-- location. Any path tokens which are expanded in non-path fields
