@@ -513,7 +513,8 @@
 			"C90",
 			"C99",
 
-			"MacOSXBundle"
+			"MacOSXBundle",
+			"NoLibSysDir",        --disable adding /usr/lib on linux
 		},
 		aliases = {
 			FatalWarnings = { "FatalWarnings", "FatalCompileWarnings", "FatalLinkWarnings" },
