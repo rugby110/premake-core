@@ -1,0 +1,63 @@
+recursiveClone: true
+
+jobs:
+- env:
+  - windows
+  build:
+    - git clean -ffxd
+    - call "C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\vcvarsall.bat" amd64
+    - nmake -f Bootstrap.mak MSDEV=vs2015 windows
+    - bin\release\premake5 test
+    - python publish/autoci_publish.py --platform=win32
+  releaseFiles:
+    - bin/release/premake5.exe
+
+- env:
+  - centos6
+  build:
+    - !!bash
+      - git clean -ffxd
+      - make -f Bootstrap.mak linux
+      - bin/release/premake5 test
+      - python publish/autoci_publish.py --platform=linux
+      - cp bin/release/premake5 bin/release/premake5_centos6
+  releaseFiles:
+    - bin/release/premake5_centos6
+
+- env:
+  - centos7
+  build:
+    - !!bash
+      - git clean -ffxd
+      - make -f Bootstrap.mak linux
+      - bin/release/premake5 test
+      - python publish/autoci_publish.py --platform=centos7
+      - cp bin/release/premake5 bin/release/premake5_centos7
+  releaseFiles:
+    - bin/release/premake5_centos7
+
+- env:
+  - ubuntu
+  build:
+    - !!bash
+      - git clean -ffxd
+      - make -f Bootstrap.mak linux
+      - bin/release/premake5 test
+      - python publish/autoci_publish.py --platform=ubuntu
+      - cp bin/release/premake5 bin/release/premake5_ubuntu
+  releaseFiles:
+    - bin/release/premake5_ubuntu
+
+- env:
+  - osx
+  build:
+    - !!bash
+      - git clean -ffxd
+      - make -f Bootstrap.mak osx
+      - bin/release/premake5 test
+      - python publish/autoci_publish.py --platform=darwin
+      - cp bin/release/premake5 bin/release/premake5_mac
+  releaseFiles:
+    - bin/release/premake5_mac
+
+

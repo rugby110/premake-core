@@ -1,8 +1,9 @@
 # PREMAKE 5 (core)
-<img src="https://github.com/premake/premake-core/wiki/linux-widget.jpeg" width="24" height="24"/> [![Build Status](https://travis-ci.org/premake/premake-core.svg?branch=master)](https://travis-ci.org/premake/premake-core)
- <img src="https://github.com/premake/premake-core/wiki/windows-widget.jpeg" width="24" height="24"/> [![Build status](https://ci.appveyor.com/api/projects/status/lc9g332y2lqvel8h?svg=true)](https://ci.appveyor.com/project/PremakeOrganization/premake-core)
+<img src="https://premake.github.io/premake-logo.png" width="200" height="200" />
 
-<img src="http://premake.github.io/premake-logo.png" width="200" height="200" />
+|     | VS2015 | MacOSX | Centos6 | CentOS7 | Ubuntu |
+| :--- | :---: | :---: | :---: | :---: | :---: |
+| AutoCI | [![Build Status](https://autoci.corp.blizzard.net/autoci/badges/blizzard/premake/master-windows)](https://ci.corp.blizzard.net/job/blizzard-premake-master) | [![Build Status](https://autoci.corp.blizzard.net/autoci/badges/blizzard/premake/master-osx)](https://ci.corp.blizzard.net/job/blizzard-premake-master) | [![Build Status](https://autoci.corp.blizzard.net/autoci/badges/blizzard/premake/master-centos6)](https://ci.corp.blizzard.net/job/blizzard-premake-master)| [![Build Status](https://autoci.corp.blizzard.net/autoci/badges/blizzard/premake/master-centos7)](https://ci.corp.blizzard.net/job/blizzard-premake-master) | [![Build Status](https://autoci.corp.blizzard.net/autoci/badges/blizzard/premake/master-ubuntu)](https://ci.corp.blizzard.net/job/blizzard-premake-master) |
 
 Premake is a command line utility which reads a scripted definition of a software project and, most commonly, uses it to generate project files for toolsets like Visual Studio, Xcode, or GNU Make. Built-in and Third-Party [Modules](https://github.com/premake/premake-core/wiki/Modules) add support for even more toolsets.
 
