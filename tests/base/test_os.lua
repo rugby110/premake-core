@@ -140,6 +140,7 @@
 -- os.outputof() tests
 --
 
+--[[
 	-- Check if outputof returns the command exit code
 	-- in addition of the command output
 	function suite.outputof_commandExitCode()
@@ -160,7 +161,7 @@
 			end
 		end
 	end
-
+]]--
 
 --
 -- os.translateCommand() tests
