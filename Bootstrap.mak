@@ -2,6 +2,7 @@ MSDEV    = vs2012
 LUA_DIR  = contrib/lua/src
 
 SRC =   src/host/*.c                \
+        src/host/luaprofiler/*.c    \
         $(LUA_DIR)/lapi.c           \
         $(LUA_DIR)/lbaselib.c       \
         $(LUA_DIR)/lbitlib.c        \
