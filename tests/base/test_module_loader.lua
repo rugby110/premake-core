@@ -13,15 +13,15 @@
 	local loaderIndex
 
 	function suite.setup()
-		table.insert(package.loaders, function (name)
+		table.insert(package.searchers, function (name)
 			premake.out(name)
-			return loadstring("")
+			return load("")
 		end)
-		loaderIndex = #package.loaders
+		loaderIndex = #package.searchers
 	end
 
 	function suite.teardown()
-		table.remove(package.loaders, loaderIndex)
+		table.remove(package.searchers, loaderIndex)
 	end
 
 --
