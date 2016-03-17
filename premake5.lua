@@ -58,6 +58,7 @@
 
 	newoption {
 		trigger = "to",
+		default = "build",
 		value   = "path",
 		description = "Set the output location for the generated files"
 	}
@@ -91,6 +92,7 @@
 --
 
 	solution "Premake5"
+		platforms { 'x64' }
 		configurations { "Release", "Debug" }
 		location ( _OPTIONS["to"] )
 
@@ -117,10 +119,6 @@
 
 		filter { "system:windows", "configurations:Release" }
 			flags       { "NoIncrementalLink", "LinkTimeOptimization" }
-
-		filter { "system:macosx", "action:gmake" }
-			buildoptions { "-mmacosx-version-min=10.4" }
-			linkoptions  { "-mmacosx-version-min=10.4" }
 
 	project "Premake5"
 		targetname  "premake5"

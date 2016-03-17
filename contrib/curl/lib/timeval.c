@@ -48,6 +48,8 @@ struct timeval curlx_tvnow(void)
 
 #elif defined(HAVE_CLOCK_GETTIME_MONOTONIC)
 
+#include <time.h>
+
 struct timeval curlx_tvnow(void)
 {
   /*

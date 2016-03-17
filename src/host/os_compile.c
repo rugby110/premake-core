@@ -46,7 +46,7 @@ int os_compile(lua_State* L)
 			return 2;
 		}
 
-		lua_dump(P, writer, outputFile, FALSE);
+		lua_dump(P, writer, outputFile, 0);
 		fclose(outputFile);
 
 		lua_close(P);
