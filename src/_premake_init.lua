@@ -685,6 +685,7 @@
 			"StaticLib",
 			"WindowedApp",
 			"Utility",
+			"Installer",
 		},
 	}
 
