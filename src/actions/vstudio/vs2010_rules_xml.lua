@@ -147,7 +147,10 @@
 	function m.boolProperty(def)
 		p.push('<BoolProperty')
 		m.baseProperty(def)
-		p.w('Switch="%s" />', def.switch or "[value]")
+		if def.switch then
+			p.w('Switch="%s"', def.switch)
+		end
+		p.w(' />')
 		p.pop()
 	end
 
@@ -167,10 +170,13 @@
 			p.w('Name="%d"', key)
 			if switches[key] then
 				p.w('DisplayName="%s"', values[key])
-				p.w('Switch="%s" />', switches[key])
+				if switches[key] then
+					p.w('Switch="%s"', switches[key])
+				end
 			else
 				p.w('DisplayName="%s" />', values[key])
 			end
+			p.w(' />')
 			p.pop()
 		end
 
@@ -181,7 +187,10 @@
 	function m.stringProperty(def)
 		p.push('<StringProperty')
 		m.baseProperty(def)
-		p.w('Switch="%s" />', def.switch or "[value]")
+		if def.switch then
+			p.w('Switch="%s"', def.switch)
+		end
+		p.w(' />')
 		p.pop()
 	end
 
@@ -189,8 +198,13 @@
 	function m.stringListProperty(def)
 		p.push('<StringListProperty')
 		m.baseProperty(def)
-		p.w('Separator="%s"', def.separator or " ")
-		p.w('Switch="%s" />', def.switch or "[value]")
+		if def.separator then
+			p.w('Separator="%s"', def.separator)
+		end
+		if def.switch then
+			p.w('Switch="%s"', def.switch)
+		end
+		p.w(' />')
 		p.pop()
 	end
 

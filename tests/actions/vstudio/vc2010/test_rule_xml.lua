@@ -43,7 +43,7 @@
 	Name="MyVar"
 	HelpContext="0"
 	DisplayName="MyVar"
-	Switch="[value]" />
+	 />
 		]]
 	end
 
@@ -56,6 +56,6 @@
 	Name="MyVar"
 	HelpContext="0"
 	DisplayName="MyVar"
-	Switch="[value]" />
+	 />
 		]]
 	end
