@@ -8,14 +8,31 @@ import sys
 import zipfile
 import shutil
 from urllib2 import urlopen, URLError, HTTPError
-import optparse
+from optparse import (OptionParser,BadOptionError,AmbiguousOptionError)
 
-parser = optparse.OptionParser()
+parser = optparse.OptionParser()		 +class PassThroughOptionParser(OptionParser):
+    """
+    An unknown option pass-through implementation of OptionParser.
+
+    When unknown arguments are encountered, bundle with largs and try again,
+    until rargs is depleted.
+
+    sys.exit(status) will still be called if a known argument is passed
+    incorrectly (e.g. missing arguments or bad argument types, etc.)
+    """
+    def _process_args(self, largs, rargs, values):
+        while rargs:
+            try:
+                OptionParser._process_args(self,largs,rargs,values)
+            except (BadOptionError,AmbiguousOptionError), e:
+                largs.append(e.opt_str)
+
+parser = PassThroughOptionParser()
 parser.add_option('--version', dest='version', default='gcc44', action="store", help="override compiler version")
 parser.add_option('--premake_args', type='string', default=[], dest='premake_args', action="append", help="arguments for premake")
 parser.add_option('--premake_action', default='gmake', dest='premake_action', action="store", help="premake action")
 
-(options, args) = parser.parse_args()
+options, unknown = parser.parse_args()
 
 build_tools_version = "${PREMAKE_VERSION}"
 build_package_version = "BGS_May2014"
