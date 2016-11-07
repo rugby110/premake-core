@@ -10,29 +10,13 @@ import shutil
 from urllib2 import urlopen, URLError, HTTPError
 from optparse import (OptionParser,BadOptionError,AmbiguousOptionError)
 
-parser = optparse.OptionParser()		 +class PassThroughOptionParser(OptionParser):
-    """
-    An unknown option pass-through implementation of OptionParser.
-
-    When unknown arguments are encountered, bundle with largs and try again,
-    until rargs is depleted.
-
-    sys.exit(status) will still be called if a known argument is passed
-    incorrectly (e.g. missing arguments or bad argument types, etc.)
-    """
-    def _process_args(self, largs, rargs, values):
-        while rargs:
-            try:
-                OptionParser._process_args(self,largs,rargs,values)
-            except (BadOptionError,AmbiguousOptionError), e:
-                largs.append(e.opt_str)
-
-parser = PassThroughOptionParser()
+parser = OptionParser()
 parser.add_option('--version', dest='version', default='gcc44', action="store", help="override compiler version")
 parser.add_option('--premake_args', type='string', default=[], dest='premake_args', action="append", help="arguments for premake")
 parser.add_option('--premake_action', default='gmake', dest='premake_action', action="store", help="premake action")
 
-options, unknown = parser.parse_args()
+options = None
+_optino_parsed = False
 
 build_tools_version = "${PREMAKE_VERSION}"
 build_package_version = "BGS_May2014"
@@ -44,6 +28,16 @@ toolchain = 'gcc'
 arch = 'x86_64'
 if 'Platform' in os.environ and os.environ['Platform'] == 'x32':
     arch = 'i386'
+
+def parse_options():
+    global _optino_parsed
+    if _optino_parsed:
+        return
+    global parser
+    global options
+    options, unknown = parser.parse_args()
+    _optino_parsed = True
+    return options
 
 def check_premake():
     currentpremake = ('"'+build_tools_version+'"')
@@ -156,6 +150,8 @@ def main(build_path=None, premake_ver=None, action=None, premake_flags=None):
     if action:
         global action_override
         action_override = action
+
+    parse_options()
 
     premakeArgs = premake_flags if premake_flags is not None else []
     premakeArgs += options.premake_args if options.premake_args is not None else []
