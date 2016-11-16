@@ -7,4 +7,5 @@
 	return {
 		"xcode",
 		"codelite",
+		"autoconf",
 	}
