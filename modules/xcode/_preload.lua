@@ -4,63 +4,39 @@
 -- Copyright (c) 2009-2015 Jason Perkins and the Premake project
 ---
 
-	local p = premake
+	newaction
+	{
+		trigger         = "xcode",
+		shortname       = "Xcode",
+		description     = "Generate Apple Xcode 6 project",
+		os              = "macosx",
 
-
---
--- Register new Xcode-specific project fields.
---
-
-	p.api.register {
-		name = "xcodebuildsettings",
-		scope = "config",
-		kind = "key-array",
-	}
-
-	p.api.register {
-		name = "xcodebuildresources",
-		scope = "config",
-		kind = "list",
-	}
-
-
---
--- Register the Xcode exporters.
---
-
-	newaction {
-		trigger     = "xcode4",
-		shortname   = "Apple Xcode 4",
-		description = "Generate Apple Xcode 4 project files",
-
-		-- Xcode always uses Mac OS X path and naming conventions
-
-		os = "macosx",
-
-		-- The capabilities of this action
-
-		valid_kinds     = { "ConsoleApp", "WindowedApp", "SharedLib", "StaticLib", "Makefile", "None" },
+		valid_kinds     = { "ConsoleApp", "WindowedApp", "SharedLib", "StaticLib", "Makefile", "Utility", "None" },
 		valid_languages = { "C", "C++" },
-		valid_tools     = {
-			cc = { "gcc", "clang" },
-		},
+		valid_tools     = { cc = { "clang" } },
 
-		-- Workspace and project generation logic
+		onsolution = function(sln)
+			require('xcode')
 
-		onWorkspace = function(wks)
-			p.generate(wks, ".xcworkspace/contents.xcworkspacedata", p.modules.xcode.generateWorkspace)
+			premake.escaper(premake.xcode6.esc)
+			premake.generate(sln, ".xcodeproj/project.pbxproj", premake.xcode6.solution)
 		end,
 
-		onProject = function(prj)
-			p.generate(prj, ".xcodeproj/project.pbxproj", p.modules.xcode.generateProject)
-		end,
+		pathVars = {
+			["file.basename"] = { absolute = false, token = "$(INPUT_FILE_BASE)" },
+			["file.abspath"]  = { absolute = true,  token = "$(INPUT_FILE_PATH)" },
+			["file.relpath"]  = { absolute = true,  token = "$(INPUT_FILE_PATH)" },
+		}
 	}
 
+	newoption
+	{
+		trigger     = "debugraw",
+		description = "Output the raw solution hierarchy in addition to the project file"
+	}
 
---
--- Decide when the full module should be loaded.
---
+	include("xcode_api.lua")
 
 	return function(cfg)
-		return (_ACTION == "xcode4")
+		return (_ACTION == "xcode")
 	end
