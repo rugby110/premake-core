@@ -45,6 +45,8 @@ function _build_compiler(ctx)
 		return "vc120"
 	elseif var == "vs2015" then
 		return "vc140"
+	elseif var == "vs2017" then
+		return "vc141"
 	end
 
 	if _OPTIONS['compiler'] then

@@ -23,6 +23,7 @@ function msc.try_compile(cfg, text)
 			vs2012 = 'VS110COMNTOOLS',
 			vs2013 = 'VS120COMNTOOLS',
 			vs2015 = 'VS140COMNTOOLS',
+			vs2017 = 'VS140COMNTOOLS',
 		}
 
 		local a = map[_ACTION]
